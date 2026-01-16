@@ -1,0 +1,5 @@
+{
+  "/api/photos/metadata/route": "app/api/photos/metadata/route.js",
+  "/api/photos/route": "app/api/photos/route.js",
+  "/page": "app/page.js"
+}

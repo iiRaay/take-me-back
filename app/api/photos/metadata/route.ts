@@ -6,20 +6,15 @@ import { parse } from "exifr";
 export async function POST(request: NextRequest) {
   try {
     const { filename } = await request.json();
-
-    if (!filename) {
+    if (!filename)
       return NextResponse.json(
         { error: "Filename is required" },
         { status: 400 }
       );
-    }
 
     const filePath = join(process.cwd(), "public", "photos", filename);
-    
-    // Read the file
     const buffer = await readFile(filePath);
 
-    // Extract EXIF data including GPS coordinates and dates
     const exifData = await parse(buffer as any, {
       gps: true,
       translateKeys: false,
@@ -27,27 +22,18 @@ export async function POST(request: NextRequest) {
       reviveValues: true,
     });
 
-    // Always extract dateTime regardless of GPS
-    const dateTime = exifData?.DateTimeOriginal || exifData?.DateTime || exifData?.CreateDate;
-
-    if (!exifData || !exifData.latitude || !exifData.longitude) {
-      return NextResponse.json({
-        hasLocation: false,
-        metadata: {
-          ...(exifData || {}),
-          dateTime: dateTime,
-        },
-      });
-    }
+    // Reliable date extraction
+    const dateTime =
+      exifData?.DateTimeOriginal ||
+      exifData?.CreateDate ||
+      exifData?.["36867"] ||
+      exifData?.["306"];
 
     return NextResponse.json({
-      hasLocation: true,
-      latitude: exifData.latitude,
-      longitude: exifData.longitude,
-      metadata: {
-        ...exifData,
-        dateTime: dateTime,
-      },
+      hasLocation: !!(exifData?.latitude && exifData?.longitude),
+      latitude: exifData?.latitude,
+      longitude: exifData?.longitude,
+      metadata: { ...exifData, dateTime },
     });
   } catch (error) {
     console.error("Error extracting metadata:", error);

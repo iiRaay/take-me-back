@@ -25,9 +25,9 @@ export default function WorldMap({
   return (
     <Map
       initialViewState={{
-        latitude: 20,
-        longitude: 0,
-        zoom: 2,
+        latitude: 56.1304,
+        longitude: -106.3468,
+        zoom: 3,
       }}
       style={{ width: "100%", height: "100%" }}
       mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"

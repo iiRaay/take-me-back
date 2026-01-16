@@ -41,19 +41,22 @@ export default function Home() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
+      {/* Header */}
       <Box mb={4}>
         <Typography variant="h3" component="h1" gutterBottom>
           Timeline App
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Explore your photos on an interactive globe map
+          Explore your photos on an interactive globe map, timeline, and library
         </Typography>
       </Box>
 
+      {/* Tabs */}
       <Paper sx={{ mb: 3 }}>
         <Tabs
           value={tabValue}
           onChange={(_, newValue) => setTabValue(newValue)}
+          variant="fullWidth"
         >
           <Tab label="Globe Map" />
           <Tab label="Timeline" />
@@ -61,6 +64,7 @@ export default function Home() {
         </Tabs>
       </Paper>
 
+      {/* Globe Map Tab */}
       <Box sx={{ display: tabValue === 0 ? "block" : "none" }}>
         <Paper sx={{ p: 2, mb: 3 }}>
           <Box sx={{ height: "600px", width: "100%" }}>
@@ -72,8 +76,9 @@ export default function Home() {
         </Paper>
       </Box>
 
+      {/* Timeline Tab */}
       <Box sx={{ display: tabValue === 1 ? "block" : "none" }}>
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: 3, maxHeight: "700px", overflowY: "auto" }}>
           <Typography variant="h6" gutterBottom>
             Photo Timeline
           </Typography>
@@ -84,6 +89,7 @@ export default function Home() {
         </Paper>
       </Box>
 
+      {/* Photo Library Tab */}
       <Box sx={{ display: tabValue === 2 ? "block" : "none" }}>
         <Paper sx={{ p: 3 }}>
           <PhotoLibrary
@@ -94,6 +100,7 @@ export default function Home() {
         </Paper>
       </Box>
 
+      {/* Photo Viewer Modal */}
       <PhotoViewer
         photo={selectedPhoto}
         open={!!selectedPhoto}
