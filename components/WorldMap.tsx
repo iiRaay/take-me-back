@@ -1,29 +1,16 @@
 "use client";
 
-import Map, { Marker, Popup } from "react-map-gl/maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
 import { useState } from "react";
+import Map, { Marker, Popup } from "react-map-gl/maplibre";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-interface PhotoLocation {
-  id: string;
-  lat: number;
-  lng: number;
-  filename: string;
-  url: string;
-  dateTime?: string;
-}
-
-export default function WorldMap({
-  photoLocations,
-  onMarkerClick,
-}: {
-  photoLocations: PhotoLocation[];
-  onMarkerClick: (photo: PhotoLocation) => void;
-}) {
-  const [hovered, setHovered] = useState<PhotoLocation | null>(null);
+export default function WorldMap({ photoLocations = [], onMarkerClick }) {
+  const [hovered, setHovered] = useState(null);
 
   return (
     <Map
+      mapLib={maplibregl}
       initialViewState={{
         latitude: 56.1304,
         longitude: -106.3468,
@@ -31,8 +18,7 @@ export default function WorldMap({
       }}
       style={{ width: "100%", height: "100%" }}
       mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"
-      // 🌍 KEY: allows smooth horizontal wrap
-      renderWorldCopies={true}
+      renderWorldCopies
       attributionControl
     >
       {photoLocations.map((photo) => (

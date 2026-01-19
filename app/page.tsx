@@ -7,35 +7,21 @@ import PhotoViewer from "@/components/PhotoViewer";
 import PhotoTimeline from "@/components/PhotoTimeline";
 import WorldMap from "@/components/WorldMap";
 
-interface PhotoLocation {
-  id: string;
-  lat: number;
-  lng: number;
-  filename: string;
-  url: string;
-  dateTime?: string;
-}
-
 export default function Home() {
-  const [photoLocations, setPhotoLocations] = useState<PhotoLocation[]>([]);
-  const [photosWithDates, setPhotosWithDates] = useState<PhotoLocation[]>([]);
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoLocation | null>(
-    null
-  );
+  const [photoLocations, setPhotoLocations] = useState([]);
+  const [photosWithDates, setPhotosWithDates] = useState([]);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [tabValue, setTabValue] = useState(0);
 
-  const handlePhotosWithLocationChange = useCallback(
-    (locations: PhotoLocation[]) => {
-      setPhotoLocations(locations);
-    },
-    []
-  );
+  const handlePhotosWithLocationChange = useCallback((locations) => {
+    setPhotoLocations(locations);
+  }, []);
 
-  const handlePhotosWithDatesChange = useCallback((photos: PhotoLocation[]) => {
+  const handlePhotosWithDatesChange = useCallback((photos) => {
     setPhotosWithDates(photos);
   }, []);
 
-  const handlePhotoClick = useCallback((photo: PhotoLocation) => {
+  const handlePhotoClick = useCallback((photo) => {
     setSelectedPhoto(photo);
   }, []);
 
